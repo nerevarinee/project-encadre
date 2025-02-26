@@ -10,4 +10,6 @@ app.use(cors());
 connectDB();
 
 const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
+app.listen(PORT, () =>
+  console.log(`Serveur démarré sur http://localhost:5000`)
+);
