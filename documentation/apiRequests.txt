@@ -1,0 +1,68 @@
+## **🔹 Authentication Routes**
+| Method | Endpoint | Description | Headers | Body |
+|--------|---------|-------------|---------|------|
+| **POST** | `/api/register` | Register a new user (Admin, Teacher, Dept Head, Printing Staff) | `Content-Type: application/json` | `{ "name": "John Doe", "email": "john@example.com", "password": "password123", "role": "teacher", "department": "DEPARTMENT_ID" }` |
+| **POST** | `/api/login` | Login to get an authentication token | `Content-Type: application/json` | `{ "email": "john@example.com", "password": "password123" }` |
+
+---
+
+## **🔹 User Management (Admin Only)**
+| Method | Endpoint | Description | Headers | Body |
+|--------|---------|-------------|---------|------|
+| **GET** | `/api/users` | Get a list of all users (Admin Only) | `Authorization: Bearer ADMIN_TOKEN` | *None* |
+| **GET** | `/api/users/:id` | Get details of a specific user | `Authorization: Bearer ADMIN_TOKEN` | *None* |
+| **DELETE** | `/api/users/:id` | Delete a user (Admin Only) | `Authorization: Bearer ADMIN_TOKEN` | *None* |
+
+---
+
+## **🔹 Department Management (Admin Only)**
+| Method | Endpoint | Description | Headers | Body |
+|--------|---------|-------------|---------|------|
+| **POST** | `/api/departments` | Create a new department | `Authorization: Bearer ADMIN_TOKEN` | `{ "name": "Mathematics" }` |
+| **GET** | `/api/departments` | Get a list of all departments | `Authorization: Bearer ADMIN_TOKEN` | *None* |
+| **DELETE** | `/api/departments/:id` | Delete a department | `Authorization: Bearer ADMIN_TOKEN` | *None* |
+
+---
+
+## **🔹 Print Request Management**
+| Method | Endpoint | Description | Headers | Body |
+|--------|---------|-------------|---------|------|
+| **POST** | `/api/print-requests` | Create a print request (Teacher Only) | `Authorization: Bearer TEACHER_TOKEN` | `{ "copies": 10, "description": "Exam papers" }` |
+| **GET** | `/api/print-requests` | Get all print requests (Admin Only) | `Authorization: Bearer ADMIN_TOKEN` | *None* |
+| **GET** | `/api/print-requests/:id` | Get details of a specific print request | `Authorization: Bearer TOKEN` | *None* |
+| **GET** | `/api/print-requests/department/:dept_id` | Get all print requests for a department (Department Head Only) | `Authorization: Bearer DEPT_HEAD_TOKEN` | *None* |
+
+---
+
+## **🔹 Approving & Processing Print Requests**
+| Method | Endpoint | Description | Headers | Body |
+|--------|---------|-------------|---------|------|
+| **PUT** | `/api/print-requests/:id/approve` | Approve a print request (Department Head Only) | `Authorization: Bearer DEPT_HEAD_TOKEN` | *None* |
+| **PUT** | `/api/print-requests/:id/process` | Mark request as **printing** (Printing Staff Only) | `Authorization: Bearer PRINTING_STAFF_TOKEN` | *None* |
+| **PUT** | `/api/print-requests/:id/complete` | Mark request as **completed** (Printing Staff Only) | `Authorization: Bearer PRINTING_STAFF_TOKEN` | *None* |
+
+---
+
+## **🔹 Dashboard & Statistics**
+| Method | Endpoint | Description | Headers | Body |
+|--------|---------|-------------|---------|------|
+| **GET** | `/api/stats/requests` | Get the total number of print requests (Admin Only) | `Authorization: Bearer ADMIN_TOKEN` | *None* |
+| **GET** | `/api/stats/requests/status` | Get a breakdown of requests by status | `Authorization: Bearer ADMIN_TOKEN` | *None* |
+| **GET** | `/api/stats/requests/department/:dept_id` | Get department-wise statistics | `Authorization: Bearer ADMIN_TOKEN` | *None* |
+
+---
+
+## **🔹 Summary of Role-Based Access**
+| Role | Allowed Actions |
+|------|---------------|
+| **Admin** | Create users, delete users, manage departments, view all requests, view stats |
+| **Teacher** | Create print requests, view their own requests |
+| **Department Head** | Approve/reject requests, view department requests |
+| **Printing Staff** | Process and complete approved requests |
+
+---
+
+## **How to Use the API**
+ **Register/Login to Get a Token**  
+ **Use the Token in `Authorization: Bearer YOUR_TOKEN` Header**  
+ **Call the Required Endpoints Using REST Client/Postman/cURL**
