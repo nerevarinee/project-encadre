@@ -1,0 +1,154 @@
+## 🔹 Authentication Routes
+
+### Register a new user
+```
+POST /api/register
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123",
+  "role": "teacher",
+  "department": "DEPARTMENT_ID"
+}
+```
+
+### Login to get a token
+```
+POST /api/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+---
+
+## 🔹 User Management (Admin Only)
+
+### Get all users
+```
+GET /api/users
+Authorization: Bearer ADMIN_TOKEN
+```
+
+### Get specific user details
+```
+GET /api/users/:id
+Authorization: Bearer ADMIN_TOKEN
+```
+
+### Delete a user
+```
+DELETE /api/users/:id
+Authorization: Bearer ADMIN_TOKEN
+```
+
+---
+
+## 🔹 Department Management (Admin Only)
+
+### Create a new department
+```
+POST /api/departments
+Authorization: Bearer ADMIN_TOKEN
+Content-Type: application/json
+
+{
+  "name": "Mathematics"
+}
+```
+
+### Get all departments
+```
+GET /api/departments
+Authorization: Bearer ADMIN_TOKEN
+```
+
+### Delete a department
+```
+DELETE /api/departments/:id
+Authorization: Bearer ADMIN_TOKEN
+```
+
+---
+
+## 🔹 Print Request Management
+
+### Create a new print request (Teacher Only)
+```
+POST /api/print-requests
+Authorization: Bearer TEACHER_TOKEN
+Content-Type: application/json
+
+{
+  "copies": 10,
+  "description": "Exam papers"
+}
+```
+
+### Get all print requests (Admin Only)
+```
+GET /api/print-requests
+Authorization: Bearer ADMIN_TOKEN
+```
+
+### Get specific print request details
+```
+GET /api/print-requests/:id
+Authorization: Bearer TOKEN
+```
+
+### Get department print requests (Department Head Only)
+```
+GET /api/print-requests/department/:dept_id
+Authorization: Bearer DEPT_HEAD_TOKEN
+```
+
+---
+
+## 🔹 Approving & Processing Print Requests
+
+### Approve a print request (Department Head Only)
+```
+PUT /api/print-requests/:id/approve
+Authorization: Bearer DEPT_HEAD_TOKEN
+```
+
+### Mark a request as 'Printing' (Printing Staff Only)
+```
+PUT /api/print-requests/:id/process
+Authorization: Bearer PRINTING_STAFF_TOKEN
+```
+
+### Mark a request as 'Completed' (Printing Staff Only)
+```
+PUT /api/print-requests/:id/complete
+Authorization: Bearer PRINTING_STAFF_TOKEN
+```
+
+---
+
+## 🔹 Dashboard & Statistics (Admin Only)
+
+### Get total number of print requests
+```
+GET /api/stats/requests
+Authorization: Bearer ADMIN_TOKEN
+```
+
+### Get breakdown of requests by status
+```
+GET /api/stats/requests/status
+Authorization: Bearer ADMIN_TOKEN
+```
+
+### Get department-specific statistics
+```
+GET /api/stats/requests/department/:dept_id
+Authorization: Bearer ADMIN_TOKEN
+```
+

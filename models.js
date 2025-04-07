@@ -1,27 +1,32 @@
-// models.js (Mongoose schemas)
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
 
-const userSchema = new Schema({
-  name: String,
-  email: { type: String, unique: true },
-  password: String,
-  role: { type: String, enum: ['admin', 'teacher', 'department_head', 'printing_staff'] },
-  department: { type: Schema.Types.ObjectId, ref: 'Department', default: null }
-});
+// User Schema
+const UserSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { type: String, enum: ['admin', 'teacher', 'dept_head', 'printing_staff'], required: true },
+  department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: function() { return this.role !== 'admin'; } }
+}, { timestamps: true });
 
-const departmentSchema = new Schema({ name: String });
+const User = mongoose.model('User', UserSchema);
 
-const printRequestSchema = new Schema({
-  teacher: { type: Schema.Types.ObjectId, ref: 'User' },
-  department: { type: Schema.Types.ObjectId, ref: 'Department' },
-  status: { type: String, enum: ['pending', 'approved', 'printing', 'completed'], default: 'pending' },
-  copies: Number,
-  description: String
-});
+// Department Schema
+const DepartmentSchema = new mongoose.Schema({
+  name: { type: String, required: true, unique: true }
+}, { timestamps: true });
 
-const User = mongoose.model('User', userSchema);
-const Department = mongoose.model('Department', departmentSchema);
-const PrintRequest = mongoose.model('PrintRequest', printRequestSchema);
+const Department = mongoose.model('Department', DepartmentSchema);
+
+// Print Request Schema
+const PrintRequestSchema = new mongoose.Schema({
+  teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: true },
+  copies: { type: Number, required: true, min: 1 },
+  description: { type: String, required: true },
+  status: { type: String, enum: ['pending', 'approved', 'printing', 'completed'], default: 'pending' }
+}, { timestamps: true });
+
+const PrintRequest = mongoose.model('PrintRequest', PrintRequestSchema);
 
 module.exports = { User, Department, PrintRequest };

@@ -1,0 +1,22 @@
+admin:
+
+"name": "Admin"
+"email": "admin@test.com"
+"password": "admin123"
+"role": "admin"
+____________________________
+
+teacher:
+
+"name": "teacher"
+"email": "teacher@test.com"
+"password": "teacher123"
+"role": "teacher"
+____________________________
+
+staff:
+
+"name": "Printer"
+"email": "printer@test.com"
+"password": "admin123"
+"role": "printing-stafff"
