@@ -3,6 +3,8 @@ const router = express.Router();
 const controllers = require('./controllers');
 const authMiddleware = require('./middleware');
 const { body } = require('express-validator'); // Import express-validator
+const { sendEmail } = require('./mailer');
+
 
 // Validation middleware
 const userValidationRules = [

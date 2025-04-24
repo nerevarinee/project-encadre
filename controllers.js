@@ -229,6 +229,15 @@ exports.completePrintRequest = async (req, res) => {
     }
     request.status = 'completed';
     await request.save();
+
+    // email  notification to teacher:
+    
+    const teacherEmail = request.teacher.email;
+    const subject = 'Your print request has been completed';
+    const message = `Hello ${request.teacher.name},\n\nYour print request for "${request.description}" has been completed.\n\nThanks,\nPrinting Staff`;
+
+    await sendEmail(teacherEmail, subject, message);
+
     res.status(200).json({ success: true, message: 'Print request completed', data: request });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Could not complete print request', data: error.message });
